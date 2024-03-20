@@ -1,0 +1,19 @@
+extends layout
+
+block content
+    div.container
+        h1 Register
+        form(action="/api/auth/register" method="post")
+            div.form-group
+                label(for="registerName") Name
+                input(type="text" id="registerName" name="name" required)
+            div.form-group
+                label(for="registerEmail") Email
+                input(type="email" id="registerEmail" name="email" required)
+            div.form-group
+                label(for="registerPassword") Password
+                input(type="password" id="registerPassword" name="password" required)
+            div.form-group
+                label(for="registerAge") Age
+                input(type="number" id="registerAge" name="age" required)
+            button(type="submit") Register

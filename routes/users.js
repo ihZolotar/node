@@ -6,6 +6,7 @@ const router = express.Router();
 /* GET users listing. */
 router.get('/', async (req, res) => {
   const items = await userModel.find();
+
   res.json(items);
 });
 

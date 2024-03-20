@@ -7,7 +7,8 @@
   },
   "extends": "airbnb",
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "ecmaVersion": "latest",
+    "sourceType": "module"
   },
   "rules": {
     "no-console": "warn",
@@ -45,6 +46,10 @@
     "object-property-newline": [
       "error",
       { "allowAllPropertiesOnSameLine": true }
+    ],
+    "object-curly-newline": [
+      "error",
+      { "consistent": true }
     ],
     //* ES6
     "arrow-spacing": "error",
