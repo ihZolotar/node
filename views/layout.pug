@@ -1,8 +1,21 @@
 doctype html
 html
-  head
-    //title= title
-    title= 'Express'
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    block content
+    head
+        title= 'Express'
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        script(src="/javascripts/auth.js")
+    body
+        header.header
+            nav.nav
+                ul
+                    li
+                        a(href="/") Home
+                        li
+                            a(href="/profile") Profile
+                        li
+                            a(href="/logout") Logout
+                        li
+                            a(href="/login") Login
+        block content
+        footer.footer
+            p Copyright © 2024 Express Learning
