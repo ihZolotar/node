@@ -1,0 +1,15 @@
+extends layout
+
+block content
+    div.container
+        h1 Login
+        form(id="loginForm" action="/api/auth/login" method="post")
+            div.form-group
+                label(for="loginEmail") Email
+                input(type="email" id="loginEmail" name="email" required)
+            div.form-group
+                label(for="loginPassword") Password
+                input(type="password" id="loginPassword" name="password" required)
+            button(type="submit") Login
+
+    script(src="/javascripts/login.js")

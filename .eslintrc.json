@@ -1,0 +1,52 @@
+{
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": ["airbnb", "prettier"],
+  "plugins": ["prettier"],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "rules": {
+    "prettier/prettier": "error",
+    "no-console": "warn",
+    "no-undef": "error",
+    "semi": "error",
+    "semi-spacing": "error",
+    "eqeqeq": "warn",
+    "no-invalid-this": "error",
+    "no-return-assign": "error",
+    "no-unused-expressions": ["error", { "allowTernary": true }],
+    "no-useless-concat": "error",
+    "no-useless-return": "error",
+    "no-constant-condition": "warn",
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "req|res|next|__" }],
+    "max-len": ["error", { "code": 100 }],
+    "max-lines": ["error", { "max": 500 }],
+    "keyword-spacing": "error",
+    "multiline-ternary": ["error", "never"],
+    "no-mixed-operators": "error",
+    "no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 1 }],
+    "no-whitespace-before-property": "error",
+    "nonblock-statement-body-position": "error",
+    "object-property-newline": [
+      "error",
+      { "allowAllPropertiesOnSameLine": true }
+    ],
+    "object-curly-newline": [
+      "error",
+      { "consistent": true }
+    ],
+    "arrow-spacing": "error",
+    "no-confusing-arrow": "error",
+    "no-duplicate-imports": "error",
+    "no-var": "error",
+    "object-shorthand": "off",
+    "prefer-const": "error",
+    "prefer-template": "warn"
+  }
+}
