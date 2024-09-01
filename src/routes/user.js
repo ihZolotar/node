@@ -5,6 +5,8 @@ const fs = require('fs');
 const path = require('path');
 const userModel = require('../models/userModel');
 const httpStatus = require('../enums/httpStatusCodes');
+const verifyUser = require('../middlewares/verifyUser');
+const uploadAvatarHandler = require('../services/avatarService');
 
 const router = express.Router();
 
@@ -29,15 +31,7 @@ const authenticate = passport.authenticate('jwt', { session: false });
 const handleError = (res, err, status = httpStatus.INTERNAL_SERVER_ERROR) =>
   res.status(status).send({ error: err.message });
 
-const findUserById = async id => userModel.findById(id).select('-password');
-
-const deleteOldAvatar = avatarPath => {
-  if (fs.existsSync(avatarPath)) {
-    fs.unlinkSync(avatarPath);
-  }
-};
-
-router.get('/all', authenticate, async (req, res) => {
+router.get('/all', authenticate, verifyUser, async (req, res) => {
   try {
     const items = await userModel.find();
     return res.status(httpStatus.OK).json(items);
@@ -46,48 +40,26 @@ router.get('/all', authenticate, async (req, res) => {
   }
 });
 
-router.put('/profile/avatar', authenticate, upload.single('avatar'), async (req, res) => {
+router.put(
+  '/profile/avatar',
+  authenticate,
+  verifyUser,
+  upload.single('avatar'),
+  uploadAvatarHandler,
+);
+
+router.get('/profile', authenticate, verifyUser, async (req, res) => {
   try {
-    const user = await findUserById(req.user.id);
-
-    if (!user) {
-      return res.status(httpStatus.NOT_FOUND).send('User not found');
-    }
-
-    if (user.avatar) {
-      deleteOldAvatar(path.join(UPLOADS_DIR, user.avatar));
-    }
-
-    user.avatar = req.file.filename;
-    await user.save();
-
-    return res.status(httpStatus.OK).send({ message: 'Avatar updated successfully' });
-  } catch (err) {
-    return handleError(res, err);
-  }
-});
-
-router.get('/profile', authenticate, async (req, res) => {
-  try {
-    const user = await findUserById(req.user.id);
-
-    if (!user) {
-      return res.status(httpStatus.NOT_FOUND).send('User not found');
-    }
-
+    const user = req.userData;
     return res.status(httpStatus.OK).json(user);
   } catch (err) {
     return handleError(res, err);
   }
 });
 
-router.get('/profile/avatar', authenticate, async (req, res) => {
+router.get('/profile/avatar', authenticate, verifyUser, async (req, res) => {
   try {
-    const user = await findUserById(req.user.id);
-
-    if (!user) {
-      return res.status(httpStatus.NOT_FOUND).send('User not found');
-    }
+    const user = req.userData;
 
     let avatarPath = path.join(__dirname, '../../public/images', 'avatar.webp');
 
@@ -104,6 +76,22 @@ router.get('/profile/avatar', authenticate, async (req, res) => {
     }
 
     return res.status(httpStatus.BAD_REQUEST).send('File not found');
+  } catch (err) {
+    return handleError(res, err);
+  }
+});
+
+router.put('/profile', authenticate, verifyUser, async (req, res) => {
+  try {
+    const { name, age } = req.body;
+    const user = req.userData;
+
+    if (name) user.name = name;
+    if (age) user.age = age;
+
+    await user.save();
+
+    return res.status(httpStatus.OK).send({ message: 'Profile updated successfully' });
   } catch (err) {
     return handleError(res, err);
   }

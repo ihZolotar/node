@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(user => {
       document.querySelector('#profileName').textContent = user.name;
       document.querySelector('#profileEmail').textContent = user.email;
+      document.querySelector('#profileAge').textContent = user.age;
 
       fetch('/api/user/profile/avatar', {
         method: 'GET',
